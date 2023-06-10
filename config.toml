@@ -6,10 +6,10 @@ languageCode = "en"
 title = "Tsung-Han Yu's Blog"
 
 # Change the default theme to be use when building the site with Hugo
-theme = "CodeIT"
+theme = "DoIt"
 
 [params]
-  # CodeIT theme version
+  # DoIt theme version
   version = "0.2.X"
 
 [menu]
@@ -45,5 +45,5 @@ theme = "CodeIT"
 [markup]
   # Syntax Highlighting (https://gohugo.io/content-management/syntax-highlighting)
   [markup.highlight]
-    # false is a necessary configuration (https://github.com/sunt-programator/CodeIT/issues/158)
+    # false is a necessary configuration (https://github.com/dillonzq/LoveIt/issues/158)
     noClasses = false
