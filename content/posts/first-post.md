@@ -1,7 +1,14 @@
 ---
-title: "My very first blog post!"
-date: 2021-08-02T01:08:23+08:00
+title: "First Post"
+date: 2023-06-10T14:45:00-04:00
+tags: ['ssg', 'web']
+toc:
+  auto: true
+math:
+  enable: true
 ---
+
+This is the first post.
 
 ## Header
 
