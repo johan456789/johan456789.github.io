@@ -1,31 +1,50 @@
 ---
-title: "First Post"
+title: "First Post - Why Blog"
 date: 2023-06-10T14:45:00-04:00
-tags: ['ssg', 'web']
+tags: ['blog']
 toc:
   auto: true
 math:
   enable: true
 ---
 
-This is the first post.
+## Why Blog
 
-## Header
+I have wanted to start a blog for more than 2 years, but procrastination and (mild) perfectionism got the best of me. This very post was actually filled with [lorem ipsum](https://en.wikipedia.org/wiki/Lorem_ipsum) until today (2023-10-30). I have finally bit the bullet and started writing my first post. Yay! But let's rewind and explore why I wanted to start a blog or personal website in the first place.
 
-![](https://i.imgur.com/09CI9SL.jpeg)
+### To share and connect with the world
 
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos  sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias error harum maxime adipisci amet laborum. Perspiciatis  minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit  quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur  fugiat, temporibus enim commodi iusto libero magni deleniti quod quam  consequuntur! Commodi minima excepturi repudiandae velit hic maxime doloremque. Quaerat provident commodi consectetur veniam similique ad  earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo  fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore  suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam  totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam  quasi aliquam eligendi, placeat qui corporis!
+The beauty of the World Wide Web is that anyone can start a website and share their thoughts with the world. A personal website allows me to carve out a little corner of the web that is entirely my own, to develop my interests and talents, and to connect with people anywhere in the world who happen to stumble upon my blog posts.
 
-## Header 2
+For example, I find [this blog (Mandarin)](https://viviguei.wordpress.com/) highly inspiring and enjoyable.
 
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos  sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias error harum maxime adipisci amet laborum. Perspiciatis  minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit  quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur  fugiat, temporibus enim commodi iusto libero magni deleniti quod quam  consequuntur! Commodi minima excepturi repudiandae velit hic maxime doloremque. Quaerat provident commodi consectetur veniam similique ad  earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo  fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore  suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam  totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam  quasi aliquam eligendi, placeat qui corporis!
+### To document my journey
 
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos  sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias error harum maxime adipisci amet laborum. Perspiciatis  minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit  quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur  fugiat, temporibus enim commodi iusto libero magni deleniti quod quam  consequuntur! Commodi minima excepturi repudiandae velit hic maxime doloremque. Quaerat provident commodi consectetur veniam similique ad  earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo  fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore  suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam  totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam  quasi aliquam eligendi, placeat qui corporis!
+I love learning, exploring, and traveling. This blog will serve as a platform where I can document my recent learning experiences, share my explorations, and recount my travels. Some of the blogs that I find inspiring and hope to emulate include [this one](https://krausefx.com/archive), [this one (Mandarin)](https://pinky-monkey.blogspot.com/), and [this one (Mandarin)](https://byvoid.com/zht/).
 
-### subheader
+It's often said that the best way to learn is to teach, so I plan to write some explanatory articles in the future.
 
-still more content
+### To build an online presence
 
-#### subsubheader
+Blogging is also a great way to build an online presence. I can write about my projects and explainer articles to showcase my technical abilities and give recruiters and potential employers a place to view my work. As technical communication is important in the software industry, this blog can be a place for me to practice and leave an online trail. This will be similar to a designer's portfolio but for a software engineer and an aspiring digital nomad.
 
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit, tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit, quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos  sapiente officiis modi at sunt excepturi expedita sint? Sed quibusdam recusandae alias error harum maxime adipisci amet laborum. Perspiciatis  minima nesciunt dolorem! Officiis iure rerum voluptates a cumque velit  quibusdam sed amet tempora. Sit laborum ab, eius fugit doloribus tenetur  fugiat, temporibus enim commodi iusto libero magni deleniti quod quam  consequuntur! Commodi minima excepturi repudiandae velit hic maxime doloremque. Quaerat provident commodi consectetur veniam similique ad  earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo  fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore  suscipit quas? Nulla, placeat. Voluptatem quaerat non architecto ab laudantium modi minima sunt esse temporibus sint culpa, recusandae aliquam numquam  totam ratione voluptas quod exercitationem fuga. Possimus quis earum veniam  quasi aliquam eligendi, placeat qui corporis!
+## Why Hugo and GitHub Pages
+
+I first learned about [Hugo](https://gohugo.io/) from a blog I read. I later learned that it's packed with many attractive features:
+
+- fast: it takes seconds to build a static website and it's extremely fast to load too.
+- markdown support: I can focus on writing instead of formatting.
+- multilingual: I would like to run the blog in both English and Mandarin. I will start simple with just English for now.
+- RSS support: I'm a big supporter of RSS so I want my blog to support it as well.
+
+Since this website will mainly consist of blog posts, I think using GitHub Pages to host my website is a pretty good hosting solution. It's simple and free. I didn't consider using CMS like WordPress because, from my personal experience, they are often a bit slow to load.
+
+## Future
+
+I hope this is a lifetime project that I will constantly work on and keep updating. I will use the tag `blog` for posts about the blog itself. Let's see how it goes!
+
+Here are some of the improvements I want off the top of my head:
+
+- add comment systems
+- add Mandarin
+- add RSS
