@@ -7,6 +7,8 @@ title = "Tsung-Han Yu"
 
 # Change the default theme to be use when building the site with Hugo
 theme = "DoIt"
+enableGitInfo = true
+
 
 [params]
   # DoIt theme version
