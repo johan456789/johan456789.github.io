@@ -3,7 +3,7 @@ baseURL = "https://tsunghanyu.com/"
 defaultContentLanguage = "en"
 # language code
 languageCode = "en"
-title = "Tsung-Han Yu's Blog"
+title = "Tsung-Han Yu"
 
 # Change the default theme to be use when building the site with Hugo
 theme = "DoIt"
@@ -90,3 +90,9 @@ theme = "DoIt"
   [markup.highlight]
     # false is a necessary configuration (https://github.com/dillonzq/LoveIt/issues/158)
     noClasses = false
+
+[frontmatter]
+date = ["date", "publishDate", "lastmod"]
+lastmod = ["lastmod", ":git", "date", "publishDate"]
+publishDate = ["publishDate", "date"]
+expiryDate = ["expiryDate"]
