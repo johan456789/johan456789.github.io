@@ -12,7 +12,7 @@ enableGitInfo = true
 
 [params]
   # DoIt theme version
-  version = "0.3.X"
+  version = "0.4.X"
   # Table of the contents config
   [params.page.toc]
     # whether to enable the table of the contents
