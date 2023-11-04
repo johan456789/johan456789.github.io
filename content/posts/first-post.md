@@ -2,10 +2,6 @@
 title: "First Post - Why Blog"
 date: 2023-06-10T14:45:00-04:00
 tags: ['blog']
-toc:
-  auto: true
-math:
-  enable: true
 ---
 
 ## Why Blog

@@ -1,6 +1,7 @@
 ---
 title: "Why Password Managers Are Both More Convenient and Secure"
 date: 2023-08-16T19:47:44-04:00
+tags: ['security', 'password-manager']
 ---
 
 I recently read a post on [Reddit](https://www.reddit.com/r/changemyview/comments/15sq1vm/cmv_password_manager_tools_and_systems_arent/) that says coming up with their customized password system/scheme is sufficient. An example system is this:
