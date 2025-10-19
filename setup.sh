@@ -13,6 +13,5 @@ echo "Initializing and updating git submodules..."
 git submodule init
 git submodule update
 
-# Run Hugo server in the background using the correct path
-echo "Starting Hugo server..."
-"$HOME/go/bin/hugo" server -D --bind=0.0.0.0 --port=1313 > hugo.log 2>&1 &
+# Check Hugo version
+"$HOME/go/bin/hugo" version
