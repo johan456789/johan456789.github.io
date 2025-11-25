@@ -6,9 +6,9 @@ tags:
 date: 2023-06-10T14:45:00-04:00
 ---
 
-## Why Blog
-
 I have wanted to start a blog for more than 2 years, but procrastination and (mild) perfectionism got the best of me. This very post was actually filled with [lorem ipsum](https://en.wikipedia.org/wiki/Lorem_ipsum) until today (2023-10-30). I have finally bit the bullet and started writing my first post. Yay! But let's rewind and explore why I wanted to start a blog or personal website in the first place.
+
+<!-- excerpt -->
 
 ### To share and connect with the world
 

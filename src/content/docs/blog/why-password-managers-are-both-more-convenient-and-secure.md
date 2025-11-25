@@ -1,6 +1,7 @@
 ---
 title: "Why Password Managers Are Both More Convenient and Secure"
 description: "A deep dive into why password managers beat custom password schemes on security, convenience, and ease of management."
+excerpt: "Password managers offer stronger security, greater convenience, and easier account management than homemade password‑pattern schemes. They generate unique passwords, provide phishing protection and breach alerts, sync an end‑to‑end encrypted vault across devices, and simplify autofill and 2FA — leaving only a single master password to protect. For most users this tradeoff gives far better damage control and less risk than reusing pattern‑based passwords."
 tags:
   - security
   - password-manager
