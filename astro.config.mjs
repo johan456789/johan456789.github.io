@@ -8,6 +8,9 @@ const isProd = process.env.NODE_ENV === 'production';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://tsunghanyu.com',
+	markdown: {
+		remarkRehype: { footnoteBackContent: '↑' },
+	},
 	integrations: [
 		starlight({
 			plugins: [starlightBlog()],
