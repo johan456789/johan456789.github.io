@@ -1,0 +1,201 @@
+---
+title: "Semi-automatically Generate PDF Table of Contents"
+description: "I found a tool that can generate table of contents for PDF files semi-automatically."
+tags:
+  - pdf
+  - cli-tool
+  - automation
+date: 2025-11-25T20:00:00+08:00
+draft: true
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+
+I wanted to read [Building a UI Framework](https://software.hixie.ch/ui-frameworks.pdf) by Ian Hickson.
+However, the PDF file is quite long and I can't read it all at once. To better understand the content, and to be able to jump to specific sections, I wanted to create a table of contents for the PDF file.
+
+I thought about manually creating a table of contents (ToC) for the PDF file, but it's too tedious.
+After some research, I found a nice tool that can generate ToC for PDF files semi-automatically.
+
+{/* excerpt */}
+
+## Tool - pdf.tocgen
+
+[pdf.tocgen](https://github.com/Krasjet/pdf.tocgen) is a cli-tool that can generate ToC for PDF files semi-automatically.[^1]
+This tool is mainly useful for PDF files that are digitally produced (e.g. from a word processor or a web browser) so it's not for scanned PDF files.
+
+`pdf.tocgen` follows the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) and provides you with a pipeline of tools (`pdfxmeta`, `pdftocgen`, and `pdftocio`) to generate ToC for a PDF file.
+
+- `pdfxmeta`: create a recipe file containing metadata that helps `pdftocgen` extract the headings from the PDF file.
+- `pdftocgen`: generate a ToC from the recipe file.
+- `pdftocio`: insert the ToC into the PDF file.
+
+```plaintext
+                          in.pdf                                    
+                            │                                       
+     ┌──────────────────────┼────────────────────┐                  
+     │                      │                    │                  
+     ▽                      ▽                    ▽                  
+┌──────────┐  recipe  ┌───────────┐   ToC   ┌──────────┐            
+│ pdfxmeta ├─────────▷│ pdftocgen ├────────▷│ pdftocio ├───▷ out.pdf
+└──────────┘          └───────────┘         └──────────┘            
+```
+
+Let's see it in action to add ToC to the PDF file.
+
+### Install pdf.tocgen
+
+You can either use `uv` or `pip` to install.
+
+<Tabs>
+  <TabItem label="uv">
+    ```sh
+    uv tool install pdf.tocgen
+    ```
+  </TabItem>
+  <TabItem label="pip">
+    ```sh
+    pip install -U pdf.tocgen
+    ```
+  </TabItem>
+</Tabs>
+
+### Create Recipe with pdfxmeta
+
+```sh title="pdfxmeta syntax"
+pdfxmeta -p <page_number> -a <level> <pdf_file> "<heading_text>"
+```
+
+This is the manual work you need to do. You need to provide the page number and the heading text to the cli-tool.
+You also set the heading level. It doesn't find it for you.
+
+There's a level 1 heading on page 2 called "Background". Let's run it.
+
+```sh title="finding level 1 heading"
+$ pdfxmeta -p 2 -a 1 ui-frameworks.pdf "Background"
+[[heading]]
+# Background
+level = 1
+greedy = true
+font.name = "Unnamed-T3"
+font.size = 27.997501373291016
+# font.size_tolerance = 1e-5
+# font.color = 0x000000
+# font.superscript = false
+# font.italic = false
+# font.serif = false
+# font.monospace = false
+# font.bold = false
+# bbox.left = 18.0
+# bbox.top = 19.75226402282715
+# bbox.right = 182.93228149414062
+# bbox.bottom = 51.16743087768555
+# bbox.tolerance = 1e-5
+```
+
+It outputs the metadata in [TOML](https://toml.io/en/). This is what `pdf.tocgen` calls a "recipe".
+By default, most of the fields are commented out. You can uncomment them if it helps `pdftocgen` find the headings.
+You might need to do some trial and error to get good settings.
+
+You can save the recipe to a file, e.g. `recipe.toml`.
+
+```sh title="saving the recipe to a file"
+pdfxmeta -p 2 -a 1 ui-frameworks.pdf "Background" > recipe.toml
+```
+
+You should repeat this process for each level of heading you want to add and append them to the recipe file.
+For example, like this:
+
+```sh title="appending the recipe to a file"
+pdfxmeta -p 2 -a 2 ui-frameworks.pdf "Applications" >> recipe.toml
+```
+
+But for simplicity, I'll just demonstrate creating only level 1 headings.
+
+### Create ToC with pdftocgen
+
+```sh title="pdftocgen syntax"
+pdftocgen <pdf_file> < <recipe_file>
+```
+
+Running `pdftocgen` will generate a ToC for the PDF file. And you can manually check if the ToC is correct.
+If not, you can tweak the recipe until you're happy with the ToC.
+
+Let's try it with our `recipe.toml` file.
+
+```sh title="running pdftocgen" {10, 11}
+pdftocgen ui-frameworks.pdf < recipe.toml
+"‭ Background ‬" 2
+"‭ Goal:  Maximizing  developer  adoption ‬" 15
+"‭ Goal:  Maximizing  performance ‬" 34
+"‭ Goal:  Maximizing  the  range  of  possible ‬ ‭ display  effects ‬" 43
+"‭ Goal:  Minimizing  power  consumption ‬" 45
+"‭ Design  choices ‬" 47
+"‭ Programming  language ‬" 99
+"‭ Framework  internals ‬" 141
+"‭ I ‬ ‭ J ‬ ‭ K ‬ ‭ L ‬" 144
+"‭ G/K ‬ ‭ I/J ‬ ‭ L ‬" 145
+"‭ Operational  strategy ‬" 178
+"‭ Conclusion ‬" 200
+"‭ Table  of  contents ‬" 204
+"‭ Acknowledgements ‬" 206
+```
+
+As you can see, it is a good start but there are false positives.
+These are not supposed to be headings:
+
+```plaintext
+"‭ I ‬ ‭ J ‬ ‭ K ‬ ‭ L ‬" 144
+"‭ G/K ‬ ‭ I/J ‬ ‭ L ‬" 145
+```
+
+You tweak the recipe and do some trial and error to get the recipe right that generates a good ToC.
+This is the recipe I ended up with:
+
+```diff lang="toml" title="recipe.toml"
+[[heading]]
+# Background
+level = 1
+greedy = true
+font.name = "Unnamed-T3"
+font.size = 27.997501373291016
+# font.size_tolerance = 1e-5
+# ...
+# font.bold = false
+- # bbox.left = 18.0
++ bbox.left = 18.0
+# bbox.top = 19.75226402282715
+# ...
+# bbox.tolerance = 1e-5
+```
+
+With this recipe, running `pdftocgen` will generate a ToC without those false positives.
+
+You can now save the ToC to a file, e.g. `toc.txt`.
+
+```sh title="saving the ToC to a file"
+pdftocgen ui-frameworks.pdf < recipe.toml > toc.txt
+```
+
+You can inspect the ToC file and make edits you want. For example, I removed the extra spaces before and after the heading texts.
+
+### Insert ToC into PDF with pdftocio
+
+```sh title="pdftocio syntax"
+pdftocio <input_pdf> <toc_file> -o <output_pdf>
+```
+
+This simply outputs the PDF file with the ToC. Let's run it.
+
+```sh title="running pdftocio"
+pdftocio ui-frameworks.pdf toc.txt -o ui-frameworks-with-toc.pdf
+```
+
+TODO: add screenshot of the output PDF file.
+
+##
+
+Special thanks to this [article](https://sspai.com/post/69601). I didn't understand how to use `pdf.tocgen` until I read it.
+
+[^1]: The README says "automatically" but I don't think that's accurate. It requires you to do some manual work to extract the headings from the PDF file.
