@@ -24,7 +24,7 @@ After some research, I found a nice tool that can generate ToC for PDF files sem
 
 ## Tool - pdf.tocgen
 
-[pdf.tocgen](https://github.com/Krasjet/pdf.tocgen) is a cli-tool that can generate ToC for PDF files semi-automatically.[^1]
+[pdf.tocgen](https://github.com/Krasjet/pdf.tocgen) is a CLI tool that can generate ToC for PDF files semi-automatically.[^1]
 This tool is mainly useful for PDF files that are digitally produced (e.g. from a word processor or a web browser) so it's not for scanned PDF files.
 
 `pdf.tocgen` follows the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) and provides you with a pipeline of tools (`pdfxmeta`, `pdftocgen`, and `pdftocio`) to generate ToC for a PDF file.
@@ -152,7 +152,7 @@ These are not supposed to be headings:
 "‭ G/K ‬ ‭ I/J ‬ ‭ L ‬" 145
 ```
 
-You tweak the recipe and do some trial and error to get the recipe right that generates a good ToC.
+You can tweak the recipe through trial and error to find the settings that generate a good ToC.
 This is the recipe I ended up with:
 
 ```diff lang="toml" title="recipe.toml"
@@ -198,7 +198,7 @@ pdftocio ui-frameworks.pdf toc.txt -o ui-frameworks-with-toc.pdf
 
 ## End notes
 
-I am glad I found this tool. Though I only from time to time encounter PDFs that don't have a ToC already, `pdf.tocgen` greatly reduces the time it takes to add a ToC when I need to.
+I am glad I found this tool. Although I only occasionally encounter long PDFs that don't already have a ToC, `pdf.tocgen` greatly reduces the time it takes to add one when I need to.
 
 Special thanks to the [author](https://github.com/Krasjet) of the tool and also this [article](https://sspai.com/post/69601). I didn't understand how to use `pdf.tocgen` until I read it.
 
