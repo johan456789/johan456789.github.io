@@ -5,11 +5,13 @@ tags:
   - pdf
   - cli-tool
   - automation
-date: 2025-11-25T20:00:00+08:00
-draft: true
+date: 2025-12-08T07:00:00+08:00
+draft: false
 ---
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Picture } from 'astro:assets';
+import pdfWithToc from '../../../assets/pdf-with-toc.png';
 
 
 I wanted to read [Building a UI Framework](https://software.hixie.ch/ui-frameworks.pdf) by Ian Hickson.
@@ -64,7 +66,7 @@ You can either use `uv` or `pip` to install.
 ### Create Recipe with pdfxmeta
 
 ```sh title="pdfxmeta syntax"
-pdfxmeta -p <page_number> -a <level> <pdf_file> "<heading_text>"
+pdfxmeta -p <page_number> -a <heading_level> <pdf_file> "<heading_text>"
 ```
 
 This is the manual work you need to do. You need to provide the page number and the heading text to the cli-tool.
@@ -192,10 +194,12 @@ This simply outputs the PDF file with the ToC. Let's run it.
 pdftocio ui-frameworks.pdf toc.txt -o ui-frameworks-with-toc.pdf
 ```
 
-TODO: add screenshot of the output PDF file.
+<Picture src={pdfWithToc} style="max-height: 300px; width: auto;" formats={['avif', 'webp', 'jpg', 'png']} alt="screenshot of the PDF's table of contents" quality="high" />
 
-##
+## End notes
 
-Special thanks to this [article](https://sspai.com/post/69601). I didn't understand how to use `pdf.tocgen` until I read it.
+I am glad I found this tool. Though I only from time to time encounter PDFs that don't have a ToC already, `pdf.tocgen` greatly reduces the time it takes to add a ToC when I need to.
+
+Special thanks to the [author](https://github.com/Krasjet) of the tool and also this [article](https://sspai.com/post/69601). I didn't understand how to use `pdf.tocgen` until I read it.
 
 [^1]: The README says "automatically" but I don't think that's accurate. It requires you to do some manual work to extract the headings from the PDF file.
