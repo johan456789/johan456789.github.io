@@ -46,6 +46,6 @@ posthog.init('phc_t9B7Ps1H8UdAfLrjgwwNsczWJp8Y3xaRB4MDgGdifRy', {
 		}),
 	],
 	redirects: {
-		"/posts/[...slug]": "/blog/[...slug]",
+		"/posts": "/blog",
 	}
 });
