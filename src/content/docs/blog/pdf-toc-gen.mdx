@@ -191,7 +191,7 @@ pdftocio <input_pdf> <toc_file> -o <output_pdf>
 This simply outputs the PDF file with the ToC. Let's run it.
 
 ```sh title="running pdftocio"
-pdftocio ui-frameworks.pdf toc.txt -o ui-frameworks-with-toc.pdf
+pdftocio ui-frameworks.pdf < toc.txt -o ui-frameworks-with-toc.pdf
 ```
 
 <Picture src={pdfWithToc} style="max-height: 300px; width: auto;" formats={['avif', 'webp', 'jpg', 'png']} alt="screenshot of the PDF's table of contents" quality="high" />
