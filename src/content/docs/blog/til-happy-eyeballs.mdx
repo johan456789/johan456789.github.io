@@ -1,0 +1,90 @@
+---
+title: "TIL: Happy Eyeballs Algorithm"
+date: 2026-01-22T22:58:11+08:00
+tags:
+  - til
+  - network
+  - algorithm
+draft: false
+---
+
+import RFC_8305_SVG from "@assets/rfc-8305.theme.svg";
+
+[Happy Eyeballs](https://en.wikipedia.org/wiki/Happy_Eyeballs) is a simple algorithm that determines
+whether to use [IPv6](https://en.wikipedia.org/wiki/IPv6) or
+[IPv4](https://en.wikipedia.org/wiki/IPv4) for applications that support both protocols.
+
+{/* excerpt */}
+
+## How it works
+
+Let's hear `curl` developer Daniel Stenberg explain it in
+[the Changelog podcast](https://youtu.be/jRfC_lDlf7s?t=16):
+
+> That's why we do happy eyeballs, meaning that we do both [IPv6 and IPv4], pretty much. [...]
+>
+> It's an RFC that actually exists in several versions, but it pretty much means that we actually
+> start the IPv6 attempt first and then a few milliseconds later you start the IPv4 attempt and the
+> one that succeeds first, that's the one you go with, and then you cancel the other one.
+
+In essence, this algorithm lets you try IPv6 first and fall back to IPv4 without the high latency
+cost of waiting for the IPv6 attempt to fail first. There's a
+[YouTube video](https://youtu.be/yKWI0hITtWU) that explains it in slightly more detail.
+
+### RFC
+
+<figure>
+  {/* Themed SVG reads site/system theme colors via CSS vars. */}
+  <RFC_8305_SVG
+    width="80%"
+    height="80%"
+    alt="Happy Eyeballs algorithm: IPv6 starts at t0, IPv4 starts 250 ms later"
+  />
+  <figcaption>
+    Figure adapted from [Bajpai & Schönwälder,
+    2016](https://www.semanticscholar.org/paper/Measuring-the-Effects-of-Happy-Eyeballs-Bajpai-Sch%C3%B6nw%C3%A4lder/dacd100d906d4cff2cb099e9b0a535e89c30e0e6/figure/0)
+  </figcaption>
+</figure>
+
+[RFC 8305](https://datatracker.ietf.org/doc/rfc8305/) is the current version that defines the Happy
+Eyeballs Version 2. It recommends a default delay of 250 milliseconds between the two connection
+attempts. There's an ongoing
+[draft](https://datatracker.ietf.org/doc/draft-ietf-happy-happyeyeballs-v3/) for version 3 too.
+
+## How I found out about this
+
+I was running an application at `localhost:3000` in a tab and then I ran a command to start another
+application at `localhost:3000` from the terminal. I was surprised to see that the second
+application started successfully. I expected it to either fail or start on a different port
+like 3001.
+
+When I tried to access the application in the browser from the first tab, I was surprised
+to see that the second application's page was displayed. It "hijacked" the port, I thought.
+
+Later I learned about the Happy Eyeballs Algorithm after talking to ChatGPT. I didn't realize
+`localhost` can be either the IPv4 or IPv6 loopback address.
+
+Checking the `/etc/hosts` file, I found that `localhost` is mapped to both the IPv4 loopback
+address `127.0.0.1` and the IPv6 loopback address `::1`.
+
+```sh title="Terminal"
+$ cat /etc/hosts
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1       localhost
+255.255.255.255 broadcasthost
+::1             localhost
+```
+
+So what happened was my first application was running at `127.0.0.1:3000` and the second application
+was running at `[::1]:3000`. The algorithm starts the IPv6 attempt first, then the IPv4 attempt. The
+IPv4 attempt won, so it appeared the second application "hijacked" the
+localhost port. The key is that `localhost` resolves to both `127.0.0.1` and `::1`, not just
+`127.0.0.1`. Visiting `http://127.0.0.1:3000` and `http://[::1]:3000` confirmed this.
+
+By the way, `[::1]:3000` is another TIL. I didn't know `::1` is the IPv6 loopback address and also
+didn't know you need to use `[]` in the browser to visit an IPv6 address.

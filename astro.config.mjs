@@ -16,6 +16,7 @@ export default defineConfig({
 			plugins: [starlightBlog()],
 			title: 'Tsung-Han Yu',
 			favicon: 'favicon.ico',
+			customCss: ['./src/styles/global.css'],
 			head: isProd ? [
 				{
 					tag: 'script',
