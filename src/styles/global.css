@@ -1,2 +1,14 @@
 figure { margin: 1rem 0; }
 figcaption { font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem; }
+.figure-media {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .figure-media {
+    width: 80%;
+  }
+}
