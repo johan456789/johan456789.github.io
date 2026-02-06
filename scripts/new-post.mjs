@@ -46,12 +46,13 @@ function main() {
 
   const excerpt = ext === "mdx" ? "{/* excerpt */}" : "<!-- excerpt -->";
 
-  const frontmatter = `---
+const frontmatter = `---
 title: "${title}"
-description:
-tags:
+description: ""
+excerpt: ""
+tags: []
 date: ${new Date().toISOString()}
-draft: false
+draft: true
 ---
 
 ${excerpt}
