@@ -1,5 +1,6 @@
 ---
 title: "Are Git Commits States or Changes?"
+description: "Git commits store snapshots, but many Git workflows treat them like changes; this post explains both models."
 date: 2025-03-30T22:39:29+08:00
 tags:
   - git
