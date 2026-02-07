@@ -51,9 +51,40 @@ I'm not a Swift developer but I'm slightly interested in learning more about nat
 So I decided to create a demo to replicate this with a vibe-coded mini app that shows a map
 and a bottom sheet. The full page screenshot shows a different view that includes an itinerary.
 
-| Screen                                 | Full Page                                     |
-| -------------------------------------- | --------------------------------------------- |
-| <Picture src={screenScreenshot} style="display: block; height: min(72vh, 900px); width: auto; margin: 0 auto;" formats={['avif', 'webp', 'png']} alt="screenshot of the screen" quality="high" /> | <Picture src={fullPageScreenshot} style="display: block; height: min(72vh, 900px); width: auto; margin: 0 auto;" formats={['avif', 'webp', 'png']} alt="screenshot of the full page" quality="high" /> |
+<table style="width: 100%; table-layout: fixed;">
+  <colgroup>
+    <col style="width: 50%;" />
+    <col style="width: 50%;" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Screen</th>
+      <th>Full Page</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <Picture
+          src={screenScreenshot}
+          style="display: block; width: 100%; height: auto; margin: 0 auto;"
+          formats={['avif', 'webp', 'png']}
+          alt="screenshot of the screen"
+          quality="high"
+        />
+      </td>
+      <td>
+        <Picture
+          src={fullPageScreenshot}
+          style="display: block; width: 100%; height: auto; margin: 0 auto;"
+          formats={['avif', 'webp', 'png']}
+          alt="screenshot of the full page"
+          quality="high"
+        />
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 The way it works is that you implement the `UIScreenshotServiceDelegate` protocol.
 iOS will call this method when it needs to generate a full page screenshot represented as a PDF.
