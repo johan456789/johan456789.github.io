@@ -46,7 +46,6 @@ const posthogHeadTags = [
     api_host:'https://us.i.posthog.com',
     defaults: '2025-11-30'
   })
-});
 		`,
 	},
 ];
@@ -61,6 +60,7 @@ export default defineConfig({
 		starlight({
 			plugins: [starlightBlog()],
 			title: 'Tsung-Han Yu',
+			description: 'Personal website and blog of Tsung-Han Yu covering software engineering, learning notes, and technical explorations.',
 			favicon: 'favicon.ico',
 			customCss: ['./src/styles/global.css'],
 			head: [...faviconHeadTags, ...(isProd ? posthogHeadTags : [])],

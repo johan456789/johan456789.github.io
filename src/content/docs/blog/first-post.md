@@ -10,19 +10,19 @@ I have wanted to start a blog for more than 2 years, but procrastination and (mi
 
 <!-- excerpt -->
 
-### To share and connect with the world
+## To share and connect with the world
 
 The beauty of the World Wide Web is that anyone can start a website and share their thoughts with the world. A personal website allows me to carve out a little corner of the web that is entirely my own, to develop my interests and talents, and to connect with people anywhere in the world who happen to stumble upon my blog posts.
 
 For example, I find [this blog (Mandarin)](https://viviguei.wordpress.com/) highly inspiring and enjoyable.
 
-### To document my journey
+## To document my journey
 
 I love learning, exploring, and traveling. This blog will serve as a platform where I can document my recent learning experiences, share my explorations, and recount my travels. Some of the blogs that I find inspiring and hope to emulate include [this one](https://krausefx.com/archive), [this one (Mandarin)](https://pinky-monkey.blogspot.com/), and [this one (Mandarin)](https://byvoid.com/zht/).
 
 It's often said that the best way to learn is to teach, so I plan to write some explanatory articles in the future.
 
-### To build an online presence
+## To build an online presence
 
 Blogging is also a great way to build an online presence. I can write about my projects and explainer articles to showcase my technical abilities and give recruiters and potential employers a place to view my work. As technical communication is important in the software industry, this blog can be a place for me to practice and leave an online trail. This will be similar to a designer's portfolio but for a software engineer and an aspiring digital nomad.
 
