@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - name: Use Node.js 20.x
         uses: actions/setup-node@v4
         with:
@@ -14,9 +16,29 @@ jobs:
         run: |
           npm install
           npm run build
-      - name: run Lighthouse CI
+      - name: determine Lighthouse URLs
+        id: lhci-urls
+        shell: bash
         run: |
+          set -euo pipefail
+          URLS_JSON="$(GITHUB_EVENT_BEFORE='${{ github.event.before }}' GITHUB_SHA='${{ github.sha }}' bash ./scripts/lhci-urls.sh)"
+          echo "urls_json=${URLS_JSON}" >> "$GITHUB_OUTPUT"
+      - name: run Lighthouse CI
+        shell: bash
+        run: |
+          set -euo pipefail
           npm install -g @lhci/cli@0.15.x
-          lhci autorun --config=./lighthouserc.json
+          BASE_URL="http://127.0.0.1:4173"
+          mapfile -t URLS < <(echo '${{ steps.lhci-urls.outputs.urls_json }}' | jq -r '.[]')
+          ARGS=()
+          for url in "${URLS[@]}"; do
+            ARGS+=("--collect.url=${BASE_URL}${url}")
+          done
+          lhci autorun \
+            --config=./lighthouserc.json \
+            --collect.startServerCommand="npm run preview:ci" \
+            --collect.startServerReadyPattern="Local" \
+            --collect.startServerReadyTimeout=30000 \
+            "${ARGS[@]}"
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
