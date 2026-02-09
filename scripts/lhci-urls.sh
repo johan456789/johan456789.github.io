@@ -32,7 +32,7 @@ CHANGED_POSTS_OUTPUT="$(
   git diff --name-only "${BASE_SHA}" "${HEAD_SHA}" -- \
     'src/content/docs/blog/*.md' \
     'src/content/docs/blog/*.mdx' \
-    | sed -E 's#^src/content/docs##; s#\.(md|mdx)$##; s#$#/index.html#' \
+    | sed -E 's#^src/content/docs##; s#\.(md|mdx)$##; s#$#/#' \
     | sort -u
 )"
 
