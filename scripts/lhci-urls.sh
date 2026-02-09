@@ -29,9 +29,8 @@ if [[ -z "${BASE_SHA}" || "${BASE_SHA}" =~ ^0+$ ]]; then
 fi
 
 CHANGED_POSTS_OUTPUT="$(
-  git diff --name-only "${BASE_SHA}" "${HEAD_SHA}" -- \
-    'src/content/docs/blog/*.md' \
-    'src/content/docs/blog/*.mdx' \
+  git diff --name-only "${BASE_SHA}" "${HEAD_SHA}" \
+    | grep -E '^src/content/docs/blog/.*\.(md|mdx)$' \
     | sed -E 's#^src/content/docs##; s#\.(md|mdx)$##; s#$#/#' \
     | sort -u
 )"
