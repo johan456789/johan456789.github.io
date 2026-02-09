@@ -1,0 +1,37 @@
+---
+title: "TIL: semi-linear history"
+description: "TIL what I have been doing for a while is called 'semi-linear history'"
+excerpt: ""
+tags:
+  - til
+  - git
+date: 2026-02-09T20:03:22.081Z
+draft: true
+---
+
+import { Picture } from 'astro:assets';
+import semiLinearMerge from '@assets/semi-linear-merge.gif';
+import semiLinearHistory from '@assets/semi-linear-history.png';
+
+I have been doing it for a while, but I recently learned that it's called "semi-linear history".
+
+{/* excerpt */}
+
+You merge feature branches into the main branch by first rebasing the feature branch onto the main branch,
+and then creating merge commits.
+
+<figure>
+<Picture src={semiLinearMerge} formats={['webp', 'gif']} alt="semi-linear merge animation" quality="high" />
+<figcaption>Image from <a href="https://devblogs.microsoft.com/devops/pull-requests-with-rebase/#semi-linear-merge">Microsoft Dev Blogs</a></figcaption>
+</figure>
+
+It makes perfect sense to me. You keep feature branches up-to-date with the main branch,
+and create merge commits, which allows you to see individual changes clearly separated from other commits.
+
+<figure>
+<Picture src={semiLinearHistory} formats={['avif', 'webp', 'jpg', 'png']} alt="semi-linear history animation" quality="high" />
+<figcaption>Image from <a href="https://docs.gitlab.com/user/project/merge_requests/methods/#merge-commit-with-semi-linear-history">GitLab Docs</a></figcaption>
+</figure>
+
+GitLab [implemented](https://gitlab.com/gitlab-org/gitlab/-/merge_requests/110) "semi-linear history"
+back in 2016 and GitHub to this day still [doesn't](https://github.com/isaacs/github/issues/1017) [support](https://github.com/orgs/community/discussions/8940) it.
