@@ -11,6 +11,9 @@
     "staging": "astro build && astro preview --host",
     "astro": "astro"
   },
+  "devDependencies": {
+    "yaml": "^2.8.1"
+  },
   "dependencies": {
     "@astrojs/starlight": "^0.36.3",
     "astro": "^5.6.1",
