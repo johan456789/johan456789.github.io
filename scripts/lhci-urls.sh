@@ -51,6 +51,7 @@ done
 declare -A SEEN
 FINAL_URLS=()
 for url in "${URLS[@]}"; do
+  [[ -z "${url}" ]] && continue
   [[ -n "${SEEN[$url]:-}" ]] && continue
   SEEN["$url"]=1
   FINAL_URLS+=("$url")
