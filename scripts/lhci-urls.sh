@@ -27,15 +27,22 @@ if ! git rev-parse --verify "${BASE_REMOTE_REF}" >/dev/null 2>&1; then
 fi
 BASE_SHA="$(git merge-base "${BASE_REMOTE_REF}" "${HEAD_SHA}")"
 
-CHANGED_POSTS_OUTPUT="$(
+CHANGED_POST_FILES_OUTPUT="$(
   git diff --name-only "${BASE_SHA}" "${HEAD_SHA}" -- \
     'src/content/docs/blog/*.md' \
     'src/content/docs/blog/*.mdx' \
-    | sed -E 's#^src/content/docs##; s#\.(md|mdx)$##; s#$#/#' \
     | sort -u
 )"
 
-mapfile -t CHANGED_POST_URLS <<< "${CHANGED_POSTS_OUTPUT}"
+CHANGED_POST_URLS_OUTPUT=""
+if [[ -n "${CHANGED_POST_FILES_OUTPUT}" ]]; then
+  CHANGED_POST_URLS_OUTPUT="$(
+    printf '%s\n' "${CHANGED_POST_FILES_OUTPUT}" \
+      | node --input-type=module -e 'import fs from "node:fs"; import matter from "gray-matter"; const files = fs.readFileSync(0, "utf8").split(/\r?\n/).map((line) => line.trim()).filter(Boolean); const urls = []; for (const file of files) { const source = fs.readFileSync(file, "utf8"); const { data } = matter(source); const draft = data?.draft; const isDraft = draft === true || (typeof draft === "string" && draft.toLowerCase() === "true"); if (isDraft) continue; urls.push(file.replace(/^src\/content\/docs/, "").replace(/\.(md|mdx)$/, "/")); } process.stdout.write(Array.from(new Set(urls)).sort().join("\n"));'
+  )"
+fi
+
+mapfile -t CHANGED_POST_URLS <<< "${CHANGED_POST_URLS_OUTPUT}"
 
 URLS=(
   "/index.html"
