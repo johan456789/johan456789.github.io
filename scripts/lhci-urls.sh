@@ -38,7 +38,7 @@ CHANGED_POST_URLS_OUTPUT=""
 if [[ -n "${CHANGED_POST_FILES_OUTPUT}" ]]; then
   CHANGED_POST_URLS_OUTPUT="$(
     printf '%s\n' "${CHANGED_POST_FILES_OUTPUT}" \
-      | node --input-type=module -e 'import fs from "node:fs"; import matter from "gray-matter"; const files = fs.readFileSync(0, "utf8").split(/\r?\n/).map((line) => line.trim()).filter(Boolean); const urls = []; for (const file of files) { const source = fs.readFileSync(file, "utf8"); const { data } = matter(source); const draft = data?.draft; const isDraft = draft === true || (typeof draft === "string" && draft.toLowerCase() === "true"); if (isDraft) continue; urls.push(file.replace(/^src\/content\/docs/, "").replace(/\.(md|mdx)$/, "/")); } process.stdout.write(Array.from(new Set(urls)).sort().join("\n"));'
+      | node ./scripts/filter-non-draft-blog-urls.mjs
   )"
 fi
 
