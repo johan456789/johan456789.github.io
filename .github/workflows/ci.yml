@@ -1,8 +1,11 @@
 name: CI
-on: [push]
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
 jobs:
   lhci:
     name: Lighthouse
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -21,7 +24,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          URLS_JSON="$(GITHUB_EVENT_BEFORE='${{ github.event.before }}' GITHUB_SHA='${{ github.sha }}' bash ./scripts/lhci-urls.sh)"
+          URLS_JSON="$(
+            GITHUB_BASE_REF='${{ github.base_ref }}' \
+            GITHUB_HEAD_SHA='${{ github.event.pull_request.head.sha }}' \
+            bash ./scripts/lhci-urls.sh
+          )"
           echo "urls_json=${URLS_JSON}" >> "$GITHUB_OUTPUT"
       - name: run Lighthouse CI
         shell: bash

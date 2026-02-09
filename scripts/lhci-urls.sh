@@ -3,37 +3,39 @@ set -euo pipefail
 
 # Build the URL list Lighthouse CI should collect:
 # - Always include core pages.
-# - Add blog post pages changed in the current git range.
+# - Add blog post pages changed across the pull request range.
 #
 # Required env:
-# - GITHUB_SHA
-# Optional env:
-# - GITHUB_EVENT_BEFORE
+# - GITHUB_BASE_REF
+# - GITHUB_HEAD_SHA
 #
 # Output:
 # - JSON array to stdout, e.g. ["/index.html","/blog/index.html"]
 
-BASE_SHA="${GITHUB_EVENT_BEFORE:-}"
-HEAD_SHA="${GITHUB_SHA:-}"
+BASE_REF="${GITHUB_BASE_REF:-}"
+HEAD_SHA="${GITHUB_HEAD_SHA:-}"
 
-if [[ -z "${HEAD_SHA}" ]]; then
-  HEAD_SHA="$(git rev-parse HEAD)"
+if [[ -z "${BASE_REF}" || -z "${HEAD_SHA}" ]]; then
+  echo "GITHUB_BASE_REF and GITHUB_HEAD_SHA are required" >&2
+  exit 1
 fi
 
-if [[ -z "${BASE_SHA}" || "${BASE_SHA}" =~ ^0+$ ]]; then
-  if git rev-parse HEAD^ >/dev/null 2>&1; then
-    BASE_SHA="$(git rev-parse HEAD^)"
-  else
-    BASE_SHA="${HEAD_SHA}"
-  fi
+BASE_REMOTE_REF="refs/remotes/origin/${BASE_REF}"
+if ! git rev-parse --verify "${BASE_REMOTE_REF}" >/dev/null 2>&1; then
+  git fetch --no-tags --depth=1 origin "${BASE_REF}"
+  BASE_REMOTE_REF="FETCH_HEAD"
 fi
+BASE_SHA="$(git merge-base "${BASE_REMOTE_REF}" "${HEAD_SHA}")"
 
-mapfile -t CHANGED_POST_URLS < <(
-  git diff --name-only "${BASE_SHA}" "${HEAD_SHA}" \
-    | rg '^src/content/docs/blog/.*\.(md|mdx)$' \
-    | sed -E 's#^src/content/docs##; s#\.(md|mdx)$##; s#$#/index.html#' \
+CHANGED_POSTS_OUTPUT="$(
+  git diff --name-only "${BASE_SHA}" "${HEAD_SHA}" -- \
+    'src/content/docs/blog/*.md' \
+    'src/content/docs/blog/*.mdx' \
+    | sed -E 's#^src/content/docs##; s#\.(md|mdx)$##; s#$#/#' \
     | sort -u
-)
+)"
+
+mapfile -t CHANGED_POST_URLS <<< "${CHANGED_POSTS_OUTPUT}"
 
 URLS=(
   "/index.html"
@@ -48,6 +50,7 @@ done
 declare -A SEEN
 FINAL_URLS=()
 for url in "${URLS[@]}"; do
+  [[ -z "${url}" ]] && continue
   [[ -n "${SEEN[$url]:-}" ]] && continue
   SEEN["$url"]=1
   FINAL_URLS+=("$url")
