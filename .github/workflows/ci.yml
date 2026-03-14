@@ -15,10 +15,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-      - name: npm install, build
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          cache: true
+      - name: pnpm install, build
         run: |
-          npm install
-          npm run build
+          pnpm install --frozen-lockfile
+          pnpm run build
       - name: determine Lighthouse URLs
         id: lhci-urls
         shell: bash
@@ -43,7 +47,7 @@ jobs:
           done
           lhci autorun \
             --config=./lighthouserc.json \
-            --collect.startServerCommand="npm run preview:ci" \
+            --collect.startServerCommand="pnpm run preview:ci" \
             --collect.startServerReadyPattern="Local" \
             --collect.startServerReadyTimeout=30000 \
             "${ARGS[@]}"
