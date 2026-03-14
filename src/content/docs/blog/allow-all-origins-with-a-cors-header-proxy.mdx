@@ -1,0 +1,65 @@
+---
+title: "Allow all origins with a CORS header proxy"
+description: ""
+excerpt: "I set up a CORS header proxy on cloudflare that modifies the CORS header to allow all origins. It's very easy to set up and it works great."
+tags:
+  - cloudflare
+  - proxy
+  - cors
+  - web
+date: 2026-03-14T10:31:22.676Z
+draft: false
+---
+
+A few years ago, I tried to set up a [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
+header proxy using [cors-anywhere](https://github.com/Rob--W/cors-anywhere).
+However, I never got it to work and I just deleted it.
+
+This time, I again needed a proxy that allows all origins to access a service.
+I happened to see the [comment by Robin Linacre](https://github.com/Zibri/cloudflare-cors-anywhere/issues/6#issuecomment-622936490) on GitHub
+and learned that Cloudflare has made their own CORS header proxy and you can single-click to [Deploy to Cloudflare](https://developers.cloudflare.com/workers/examples/cors-header-proxy/).
+And that's exactly what I did.
+
+The only caveat is that Cloudflare's proxy only allows the origin to be the worker itself. So we need to 
+update [that line of code](https://github.com/cloudflare/template-registry/blob/f2a21ff87a4f9c60ce1d426e9e8d2e6807b786fd/templates/javascript/cors_header_proxy.js#L13) to allow all origins.
+
+```diff lang="javascript" title="index.js"
+  // Set CORS headers
+-  response.headers.set('Access-Control-Allow-Origin', url.origin)
++  response.headers.set('Access-Control-Allow-Origin', '*')
+```
+
+Once it finishes deploying to Cloudflare Workers, you can now access any service without 
+CORS restrictions using `https://REDACTED.REDACTED.workers.dev/corsproxy/?apiurl={YOUR_URL_HERE}`.
+
+That's it!
+
+## Results
+
+I tested the proxy by fetching `https://example.com` from the browser's dev console while on the Google home page.
+
+### Without proxy
+
+```js title="Dev Console"
+fetch('https://example.com')
+  .then(r => r.text())
+  .then(console.log)
+  .catch(console.error);
+```
+
+```plaintext wrap title="Console Output"
+Access to fetch at 'https://example.com/' from origin 'https://www.google.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+```
+
+### With proxy
+
+```js title="Dev Console"
+fetch('https://REDACTED.REDACTED.workers.dev/corsproxy/?apiurl=https://example.com')
+  .then(r => r.text())
+  .then(console.log)
+  .catch(console.error);
+```
+
+```plaintext wrap title="Console Output"
+<!doctype html><html lang="en"><head><title>Example Domain</title><meta name="viewport" content="width=device-width, initial-scale=1"><style>body{background:#eee;width:60vw;margin:15vh auto;font-family:system-ui,sans-serif}h1{font-size:1.5em}div{opacity:0.8}a:link,a:visited{color:#348}</style></head><body><div><h1>Example Domain</h1><p>This domain is for use in documentation examples without needing permission. Avoid use in operations.</p><p><a href="https://iana.org/domains/example">Learn more</a></p></div></body></html>
+```
