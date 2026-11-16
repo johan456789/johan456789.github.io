@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightBlog from 'starlight-blog';
+import { unified } from '@astrojs/markdown-remark';
 
 const isProd = process.env.NODE_ENV === 'production';
 /** @typedef {{ tag: 'title' | 'base' | 'link' | 'style' | 'meta' | 'script' | 'noscript' | 'template', content?: string, attrs?: Record<string, string | boolean | undefined> }} HeadTag */
@@ -54,7 +55,8 @@ const posthogHeadTags = [
 export default defineConfig({
 	site: 'https://tsunghanyu.com',
 	markdown: {
-		remarkRehype: { footnoteBackContent: '↑' },
+		// Keep the remark/rehype pipeline for the custom footnote back-link.
+		processor: unified({ remarkRehype: { footnoteBackContent: '↑' } }),
 	},
 	integrations: [
 		starlight({
@@ -75,7 +77,7 @@ export default defineConfig({
 				},
 				{
 					label: 'Reference',
-					autogenerate: { directory: 'reference' },
+					items: [{ autogenerate: { directory: 'reference' } }],
 				},
 			],
 		}),
