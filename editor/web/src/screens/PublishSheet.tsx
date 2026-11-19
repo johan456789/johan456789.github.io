@@ -76,9 +76,9 @@ export function PublishSheet(props: {
   }, [phase.s]);
 
   const blocker: string | null = !online
-    ? 'You are offline. Publishing needs a connection to your PC. Your edits are safe and will sync when you are back.'
+    ? 'You are offline. Opening a pull request needs a connection to your PC. Your edits are safe and will sync when you are back.'
     : status === 'conflict'
-      ? 'This post has a sync conflict. Resolve it before publishing.'
+      ? 'This post has a sync conflict. Resolve it first.'
       : unsynced
         ? 'Waiting for your latest edits to finish syncing…'
         : null;
@@ -112,7 +112,7 @@ export function PublishSheet(props: {
     setCheckpointBusy(true);
     try {
       const r = await api.commit(message.trim());
-      toast(`Checkpoint saved (${r.commit})`, 'success');
+      toast(`Committed on the PC (${r.commit})`, 'success');
       await loadGit();
       void refreshPosts();
     } catch (e) {
@@ -135,7 +135,7 @@ export function PublishSheet(props: {
     <Sheet
       open={props.open}
       onClose={props.onClose}
-      title={phase.s === 'done' ? 'Published' : 'Publish'}
+      title="Pull request"
       locked={running}
       tall
       footer={
@@ -153,10 +153,10 @@ export function PublishSheet(props: {
         ) : (
           <div class="btn-col">
             <Button kind="primary" class="wide" disabled={!!blocker || !msgOk || !git || running} busy={running} onClick={() => void publish()}>
-              {running ? 'Publishing…' : phase.s === 'error' ? 'Try again' : 'Publish'}
+              {running ? 'Sending to GitHub…' : phase.s === 'error' ? 'Try again' : onDefault ? 'Open pull request' : 'Update pull request'}
             </Button>
             <Button kind="secondary" class="wide" disabled={!!blocker || !msgOk || !git || running || checkpointBusy || (!!git && git.changes.length === 0)} busy={checkpointBusy} onClick={() => void checkpoint()}>
-              Save checkpoint
+              Commit on PC only
             </Button>
           </div>
         )
@@ -175,7 +175,7 @@ export function PublishSheet(props: {
           {!phase.prUrl && (
             <p class="note">The GitHub CLI is not available on the PC, so open the compare page to create the pull request.</p>
           )}
-          <p class="note">After the pull request is merged, switch back to {defaultBranch} from the home screen.</p>
+          <p class="note">The post goes live when you merge the pull request on GitHub. Afterwards, switch back to {defaultBranch} from the home screen.</p>
         </div>
       ) : (
         <div class="form">
@@ -185,9 +185,9 @@ export function PublishSheet(props: {
               <div class="branch-name">{git?.branch || branch || '…'}</div>
               <div class="field-hint">
                 {onDefault
-                  ? `You are on ${git!.defaultBranch}. Publishing creates the branch post/${slug} first (or a numbered one if an unmerged post/${slug} exists).`
+                  ? `Commits this post to a new branch, post/${slug}, pushes it and opens a pull request. It goes live when you merge it on GitHub.`
                   : git
-                    ? 'Publishing commits to this branch and updates its pull request.'
+                    ? 'Commits to this branch, pushes it and updates its pull request. It goes live when you merge it on GitHub.'
                     : 'Checking the repository…'}
               </div>
             </div>
@@ -198,10 +198,10 @@ export function PublishSheet(props: {
               <TriangleAlert size={18} aria-hidden="true" />
               <div>
                 <strong>Still marked as draft</strong>
-                <span>It will not appear on the published blog until the draft flag is removed.</span>
+                <span>Even after the pull request is merged, it stays hidden on the blog until the draft flag is removed.</span>
               </div>
               <Button kind="secondary" onClick={() => void markPublished()} disabled={running}>
-                Mark as published
+                Remove draft flag
               </Button>
             </div>
           )}
@@ -264,7 +264,7 @@ export function PublishSheet(props: {
 
           <div ref={progress} class="progress">
           {phase.s !== 'idle' && (
-            <ol class="steps" aria-label="Publish progress">
+            <ol class="steps" aria-label="Pull request progress">
               {STEPS.map((st, i) => {
                 const failed = phase.s === 'error' && stepIndex(phase.step) === i;
                 const done = phase.s === 'running' ? i < phase.step : phase.s === 'error' ? stepIndex(phase.step) > i : false;

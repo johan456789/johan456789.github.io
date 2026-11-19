@@ -1570,6 +1570,10 @@ html[data-kb='1'] .sheet-foot {
   border-radius: 14px;
   color: var(--ink-2);
 }
+.branch-card > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
 .branch-name {
   font-family: var(--font-mono);
   font-size: 15px;

@@ -207,7 +207,7 @@ export function Editor({ file }: { file: string }) {
             onClose={() => setMenu(false)}
             items={[
               { label: 'Post details', icon: <SlidersHorizontal size={18} />, onSelect: () => setSheet('details') },
-              { label: 'Publish…', icon: <Send size={18} />, onSelect: () => setSheet('publish') },
+              { label: 'Open pull request…', icon: <Send size={18} />, onSelect: () => setSheet('publish') },
               { label: 'Delete post', icon: <Trash2 size={18} />, danger: true, onSelect: () => setSheet('delete'), hint: online ? undefined : 'Needs a connection' },
             ]}
           />
