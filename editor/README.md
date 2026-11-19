@@ -165,8 +165,10 @@ Success `{ "commit": "<short sha>" }`.
 ### `POST /git/publish`
 Body `{ "message": string, "title"?: string, "slug"?: string }`. In order:
 1. If on the default branch, create and switch to `post/<slug>` (`slug`
-   required in that case; 400 `slug_required`). If already on another branch,
-   stay on it.
+   required in that case; 400 `slug_required`). An existing `post/<slug>`
+   (local or on origin) is reused only if it is already merged into HEAD;
+   otherwise `post/<slug>-2`, `-3`, … is used, so unmerged work is never
+   touched. If already on another branch, stay on it.
 2. Commit pending editor changes as in `/git/commit` (skip if none).
 3. `git push -u origin <branch>`.
 4. If `gh` is available: reuse the open PR for the branch, else

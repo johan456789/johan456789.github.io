@@ -225,6 +225,46 @@ async function findOrCreatePr(repoRoot, { ghBin, branch, base, title }) {
 
 const SLUG_RE = /^[a-z0-9][a-z0-9-]{0,99}$/;
 
+async function refExists(repoRoot, ref) {
+  try {
+    await git(repoRoot, ["rev-parse", "--verify", "-q", ref]);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function containedInHead(repoRoot, ref) {
+  try {
+    await git(repoRoot, ["merge-base", "--is-ancestor", ref, "HEAD"]);
+    return true;
+  } catch (e) {
+    if (e.code === 1) return false;
+    throw e;
+  }
+}
+
+// Picks the branch for publishing a post from the default branch.
+// post/<slug> is reused when every existing copy of it (local and origin) is
+// already contained in HEAD, as after its PR was merged; it is then reset to
+// HEAD, which loses nothing. A branch that still has commits HEAD lacks
+// (an unmerged or squash-merged PR) is left alone, and post/<slug>-2, -3, …
+// is used instead.
+async function pickPostBranch(repoRoot, slug) {
+  for (let n = 1; n <= 50; n++) {
+    const name = n === 1 ? `post/${slug}` : `post/${slug}-${n}`;
+    let usable = true;
+    for (const ref of [`refs/heads/${name}`, `refs/remotes/origin/${name}`]) {
+      if ((await refExists(repoRoot, ref)) && !(await containedInHead(repoRoot, ref))) {
+        usable = false;
+        break;
+      }
+    }
+    if (usable) return name;
+  }
+  throw new Error(`No free branch name for post/${slug}.`);
+}
+
 export async function publish(repoRoot, { message, title, slug, ghBin }) {
   const def = await defaultBranch(repoRoot);
   let branch = await currentBranch(repoRoot);
@@ -239,13 +279,13 @@ export async function publish(repoRoot, { message, title, slug, ghBin }) {
 
   // 1. branch
   if (branch === def) {
-    const target = `post/${slug}`;
     try {
-      await git(repoRoot, ["switch", "-c", target]); // fails if it already exists
+      branch = await pickPostBranch(repoRoot, slug);
+      // -C: create, or reset a fully merged leftover branch to HEAD.
+      await git(repoRoot, ["switch", "-C", branch]);
     } catch (e) {
       throw new PublishError("branch", e);
     }
-    branch = target;
   } else if (branch === null) {
     throw new PublishError("branch", new Error("HEAD is detached; switch to a branch first."));
   }

@@ -340,6 +340,42 @@ describe("api", () => {
     assert.equal(fx.g("rev-parse", "--abbrev-ref", "HEAD"), "main");
   });
 
+  test("publishing a post again reuses a merged post branch, never an unmerged one", async () => {
+    const other = makeFixture();
+    const s2 = await startServer({ repoRoot: other.repo });
+    const pub = (slug) => request(s2.port, "POST", "/_editor/api/git/publish", { json: { message: "m", slug } });
+    const edit = () => fs.appendFileSync(path.join(other.repo, BLOG, "hello.md"), "more\n");
+    try {
+      edit();
+      const first = await pub("hello");
+      assert.equal(first.status, 200, first.text);
+      assert.equal(first.json.branch, "post/hello");
+      const firstTip = other.g("rev-parse", "post/hello");
+      assert.equal((await request(s2.port, "POST", "/_editor/api/git/sync-main")).status, 200);
+
+      // post/hello is not merged yet: leave it alone and use a fresh name.
+      edit();
+      const second = await pub("hello");
+      assert.equal(second.status, 200, second.text);
+      assert.equal(second.json.branch, "post/hello-2");
+      assert.equal(other.g("rev-parse", "post/hello"), firstTip);
+
+      // Merge post/hello into main (as a merged PR would), then publish again.
+      other.g("switch", "main");
+      other.g("merge", "--no-ff", "-m", "Merge post/hello", "post/hello");
+      other.g("push", "origin", "main");
+      edit();
+      const third = await pub("hello");
+      assert.equal(third.status, 200, third.text);
+      assert.equal(third.json.branch, "post/hello");
+      assert.equal(other.g("rev-parse", "HEAD^"), other.g("rev-parse", "main"));
+      assert.equal(sh(other.origin, "git", ["rev-parse", "post/hello"]), other.g("rev-parse", "HEAD"));
+    } finally {
+      await s2.close();
+      other.cleanup();
+    }
+  });
+
   test("publish reports the failing step (push)", async () => {
     const other = makeFixture();
     const s2 = await startServer({ repoRoot: other.repo });

@@ -185,7 +185,7 @@ export function PublishSheet(props: {
               <div class="branch-name">{git?.branch || branch || '…'}</div>
               <div class="field-hint">
                 {onDefault
-                  ? `You are on ${git!.defaultBranch}. Publishing creates the branch post/${slug} first.`
+                  ? `You are on ${git!.defaultBranch}. Publishing creates the branch post/${slug} first (or a numbered one if an unmerged post/${slug} exists).`
                   : git
                     ? 'Publishing commits to this branch and updates its pull request.'
                     : 'Checking the repository…'}
